@@ -1,29 +1,34 @@
-//Optimized Approach - O(n^2 logn + nlogn) - o(n^2 logn) time and O(n) space
 class Solution {
 public:
-    vector<vector<int>> threeSum(vector<int>& nums) {
-        int target = 0;
-        sort(nums.begin(), nums.end());
-        set<vector<int>> s;
-        vector<vector<int>> output;
-        for (int i = 0; i < nums.size(); i++){
-            int j = i + 1;
-            int k = nums.size() - 1;
-            while (j < k) {
-                int sum = nums[i] + nums[j] + nums[k];
-                if (sum == target) {
-                    s.insert({nums[i], nums[j], nums[k]});
-                    j++;
-                    k--;
-                } else if (sum < target) {
-                    j++;
-                } else {
-                    k--;
-                }
+    void twoSum(vector<int>& nums, int k, vector<vector<int>>& result, int target) {
+        //Two pointer technique (Sorted array) Things you must not forget in interviews
+        
+        int i = k, j = nums.size()-1;
+        while(i < j) {
+            if(nums[i]+nums[j] > target)
+                j--;
+            else if(nums[i] + nums[j] < target)
+                i++;
+            else {
+                result.push_back({-target, nums[i], nums[j]});
+                while(i < j && nums[i] == nums[i+1]) i++;
+                while(i < j && nums[j] == nums[j-1]) j--;
+                i++; //Things you must not forget in interviews
+                j--; //Things you must not forget in interviews
             }
         }
-        for(auto triplets : s)
-            output.push_back(triplets);
-        return output;
+    }
+    vector<vector<int>> threeSum(vector<int>& nums) {
+        if(nums.size() < 3) //Things you must not forget in interviews
+            return {};
+        vector<vector<int>> result;
+        sort(nums.begin(), nums.end());
+        for(int i = 0; i<nums.size()-2; i++) {  //(i<nums.size()-2)Things you must not forget in interviews
+            if(i!= 0 && nums[i] == nums[i-1]) { //Things you must not forget in interviews
+                continue;
+            }
+            twoSum(nums, i+1, result, -nums[i]);
+        }
+        return result;
     }
 };
