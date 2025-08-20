@@ -1,23 +1,21 @@
 class Solution {
 public:
     vector<int> twoSum(vector<int>& nums, int target) {
-        unordered_map<int,int> m;
-        // for(int i =0;i<nums.size(),i++){
-        //       int val= nums[i];
-        //       m[val]=i;
-        // }
+        unordered_map<int,int> m; // number -> index
 
+        for (int i = 0; i < nums.size(); i++) {
+            int current = nums[i];
+            int required = target - current;
 
-        for(int i=0 ;i<nums.size();i++){
-            int current= nums[i];
-            int required = target- current;
-            if(m.find(required) != m.end()){
-
-                return {i,m[required]};
-
+            // Check if the "required" number already exists in map
+            if (m.find(required) != m.end()) {
+                return {i, m[required]};
             }
-            m[current]=i;
+
+            // Store current number with its index
+            m[current] = i;
         }
-        return {-1,-1};
+
+        return {-1, -1}; // not found
     }
 };
